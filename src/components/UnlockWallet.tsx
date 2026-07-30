@@ -67,7 +67,7 @@ export function UnlockWallet() {
 
   return (
     <div className="card">
-      <div className="card-icon">🔓</div>
+      <img src="/logo-thaichain.svg" alt="ThaiChain" className="card-logo" />
       <h1>Unlock Wallet</h1>
       <p className="subtitle">
         Authenticate with your Passkey to decrypt the wallet and access your account.
@@ -83,7 +83,7 @@ export function UnlockWallet() {
       {recoveryMode ? (
         <div className="recovery-section">
           <div className="warning-banner">
-            ⚠️ Passkey not found on this device/domain. Use your recovery password to unlock.
+            ⚠ Passkey not found on this device/domain. Use your recovery password to unlock.
           </div>
           <div className="field">
             <label>Recovery Password</label>
@@ -96,7 +96,7 @@ export function UnlockWallet() {
             />
           </div>
           <button className="btn-primary" onClick={handleRecovery} disabled={recoveryLoading}>
-            {recoveryLoading ? "Recovering..." : "🔓 Unlock with Recovery Password"}
+            {recoveryLoading ? "Recovering…" : "Unlock with Password"}
           </button>
           <button className="btn-text" onClick={cancelRecovery} style={{ display: "block", margin: "12px auto 0" }}>
             Cancel
@@ -104,7 +104,7 @@ export function UnlockWallet() {
         </div>
       ) : (
         <button className="btn-primary" onClick={handleUnlock} disabled={loading}>
-          {loading ? "Authenticating..." : "🔓 Unlock with Passkey"}
+          {loading ? "Authenticating…" : "Unlock with Passkey"}
         </button>
       )}
 
@@ -118,7 +118,7 @@ export function UnlockWallet() {
 
           <div className="link-row">
             <button className="btn-text" onClick={() => setConfirmImport(true)}>
-              ⬆ Import
+              ↧ Import
             </button>
             <button className="btn-text-danger" onClick={() => setConfirmDelete(true)}>
               Delete

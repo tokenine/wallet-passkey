@@ -1,15 +1,13 @@
 import { useState, useEffect, useCallback } from "react";
 import { useWallet } from "../contexts/WalletContext";
 import { getBalanceToken } from "dacc-js";
-import { payidx } from "../config/chain";
+import { thaichain, TCH_TOKEN } from "../config/chain";
 import { ExportPasswordModal } from "./ExportPasswordModal";
 import { SendNative } from "./SendNative";
 import { SendToken } from "./SendToken";
 import { WriteContract } from "./WriteContract";
 import { SignMessage } from "./SignMessage";
 import { downloadBackupFile } from "../lib/backup";
-
-const ERC20_TOKEN = "0x20c0000000000000000000000000000000000000" as const;
 
 type Tab = "overview" | "send-native" | "send-token" | "write-contract" | "sign-message";
 
@@ -19,7 +17,7 @@ export function Dashboard() {
   const [showExportModal, setShowExportModal] = useState(false);
   const [exporting, setExporting] = useState(false);
   const [balance, setBalance] = useState<string | null>(null);
-  const [tokenSymbol, setTokenSymbol] = useState<string>("TOKEN");
+  const [tokenSymbol, setTokenSymbol] = useState<string>("TCH");
   const [balanceLoading, setBalanceLoading] = useState(false);
 
   const refreshBalance = useCallback(async () => {
@@ -28,8 +26,8 @@ export function Dashboard() {
     try {
       const result = await getBalanceToken({
         address: unlockedWallet.address as `0x${string}`,
-        tokenAddress: ERC20_TOKEN,
-        network: payidx,
+        tokenAddress: TCH_TOKEN,
+        network: thaichain,
       });
       setBalance(result.balanceFormatted);
       if (result.symbol) setTokenSymbol(result.symbol);
@@ -61,22 +59,21 @@ export function Dashboard() {
   };
 
   const tabs: { id: Tab; label: string; icon: string }[] = [
-    { id: "overview", label: "Overview", icon: "📊" },
-    { id: "send-native", label: "Send Native", icon: "💸" },
-    { id: "send-token", label: "Send Token", icon: "🪙" },
-    { id: "write-contract", label: "Write Contract", icon: "📝" },
-    { id: "sign-message", label: "Sign Message", icon: "✍️" },
+    { id: "overview", label: "Overview", icon: "◈" },
+    { id: "send-native", label: "Send TCH", icon: "↗" },
+    { id: "send-token", label: "Send Token", icon: "◆" },
+    { id: "write-contract", label: "Contract", icon: "▤" },
+    { id: "sign-message", label: "Sign", icon: "✎" },
   ];
 
   return (
     <div className="dashboard">
       <header className="dash-header">
         <div className="dash-brand">
-          <span className="brand-icon">🔐</span>
-          <span>Passkey Wallet</span>
+          <img src="/logo-thaichain.svg" alt="ThaiChain" className="brand-icon" />
         </div>
         <button className="btn-lock" onClick={lock}>
-          🔒 Lock
+          ◇ Lock
         </button>
       </header>
 
@@ -90,35 +87,36 @@ export function Dashboard() {
               title="Copy address"
               onClick={() => navigator.clipboard.writeText(unlockedWallet.address)}
             >
-              📋
+              ⧉
             </button>
             <a
               className="btn-icon"
               title="View on explorer"
-              href={`${payidx.blockExplorers!.default.url}/address/${unlockedWallet.address}`}
+              href={`${thaichain.blockExplorers!.default.url}/address/${unlockedWallet.address}`}
               target="_blank"
               rel="noreferrer"
             >
-              🔗
+              ↗
             </a>
           </div>
         </div>
         <div className="account-row">
           <span className="label">Balance</span>
           <span className="balance">
-            {balanceLoading ? "Loading..." : `${balance} ${tokenSymbol}`}
+            {balanceLoading ? "Loading…" : balance}
+            <span className="balance-symbol">{tokenSymbol}</span>
           </span>
         </div>
         <div className="backup-row">
           <button className="btn-text" onClick={refreshBalance} disabled={balanceLoading}>
-            ↻ Refresh balance
+            ↻ Refresh
           </button>
           <button
             className="btn-text"
             onClick={() => setShowExportModal(true)}
             disabled={exporting}
           >
-            ⬇ Backup to file
+            ⬇ Backup
           </button>
         </div>
       </div>
@@ -140,23 +138,32 @@ export function Dashboard() {
         {tab === "overview" && (
           <div className="overview">
             <div className="info-box">
-              <h3>Wallet Info</h3>
+              <h3>Network</h3>
               <p>
-                <strong>Network:</strong> {payidx.name} (Chain ID: {payidx.id})
+                <strong>Chain:</strong> {thaichain.name} (ID {thaichain.id})
+              </p>
+              <p>
+                <strong>RPC:</strong>{" "}
+                <code style={{ background: "none", padding: 0 }}>
+                  {thaichain.rpcUrls.default.http[0]}
+                </code>
               </p>
               <p>
                 <strong>Explorer:</strong>{" "}
                 <a
-                  href={payidx.blockExplorers!.default.url}
+                  href={thaichain.blockExplorers!.default.url}
                   target="_blank"
                   rel="noreferrer"
                 >
-                  {payidx.blockExplorers!.default.url}
+                  {thaichain.blockExplorers!.default.url}
                 </a>
               </p>
+              <p>
+                <strong>Gas Token:</strong> {tokenSymbol} (TCH Token)
+              </p>
               <p className="muted">
-                Your wallet is protected by your device's Passkey. All transactions
-                require biometric authentication.
+                Secured by your device Passkey. Every transaction requires biometric
+                authentication.
               </p>
             </div>
           </div>

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { daccSignMessage } from "dacc-js";
 import { useWallet } from "../contexts/WalletContext";
-import { payidx } from "../config/chain";
+import { thaichain } from "../config/chain";
 
 export function SignMessage() {
   const { unlockedWallet } = useWallet();
@@ -25,7 +25,7 @@ export function SignMessage() {
       const result = await daccSignMessage({
         daccPublickey: unlockedWallet.daccPublickey,
         passwordSecretkey: unlockedWallet.passwordSecretkey,
-        network: payidx,
+        network: thaichain,
         message,
       });
 
@@ -61,7 +61,7 @@ export function SignMessage() {
 
       {signature && (
         <div className="success-box">
-          <p>✅ Message signed!</p>
+          <p>◆ Message signed</p>
           <label>Signature:</label>
           <textarea readOnly rows={4} value={signature} className="signature-output" />
         </div>

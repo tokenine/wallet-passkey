@@ -2,7 +2,7 @@ import { useState } from "react";
 import { daccWriteContract } from "dacc-js";
 import { parseAbi } from "viem";
 import { useWallet } from "../contexts/WalletContext";
-import { payidx } from "../config/chain";
+import { thaichain } from "../config/chain";
 
 export function WriteContract() {
   const { unlockedWallet } = useWallet();
@@ -40,7 +40,7 @@ export function WriteContract() {
       const result = await daccWriteContract({
         daccPublickey: unlockedWallet.daccPublickey,
         passwordSecretkey: unlockedWallet.passwordSecretkey,
-        network: payidx,
+        network: thaichain,
         contractAddress: contractAddress as `0x${string}`,
         abi,
         functionName,
@@ -109,7 +109,7 @@ export function WriteContract() {
       </div>
 
       <div className="field">
-        <label>Value ({payidx.nativeCurrency.symbol}, optional)</label>
+        <label>Value ({thaichain.nativeCurrency.symbol}, optional)</label>
         <input
           type="number"
           step="0.000001"
@@ -128,10 +128,10 @@ export function WriteContract() {
 
       {txHash && (
         <div className="success-box">
-          <p>✅ Transaction sent!</p>
+          <p>◆ Transaction sent</p>
           <p>
             <a
-              href={`${payidx.blockExplorers!.default.url}/tx/${txHash}`}
+              href={`${thaichain.blockExplorers!.default.url}/tx/${txHash}`}
               target="_blank"
               rel="noreferrer"
             >

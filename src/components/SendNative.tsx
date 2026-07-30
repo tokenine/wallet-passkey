@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { daccSendNative } from "dacc-js";
 import { useWallet } from "../contexts/WalletContext";
-import { payidx } from "../config/chain";
+import { thaichain } from "../config/chain";
 
 interface Props {
   onSent: () => void;
@@ -30,7 +30,7 @@ export function SendNative({ onSent }: Props) {
       const result = await daccSendNative({
         daccPublickey: unlockedWallet.daccPublickey,
         passwordSecretkey: unlockedWallet.passwordSecretkey,
-        network: payidx,
+        network: thaichain,
         to: to as `0x${string}`,
         amount: parseFloat(amount),
       });
@@ -47,7 +47,7 @@ export function SendNative({ onSent }: Props) {
 
   return (
     <div className="form-section">
-      <h3>Send {payidx.nativeCurrency.symbol}</h3>
+      <h3>Send {thaichain.nativeCurrency.symbol}</h3>
 
       <div className="field">
         <label>Recipient Address</label>
@@ -61,7 +61,7 @@ export function SendNative({ onSent }: Props) {
       </div>
 
       <div className="field">
-        <label>Amount ({payidx.nativeCurrency.symbol})</label>
+        <label>Amount ({thaichain.nativeCurrency.symbol})</label>
         <input
           type="number"
           step="0.000001"
@@ -73,17 +73,17 @@ export function SendNative({ onSent }: Props) {
       </div>
 
       <button className="btn-primary" onClick={handleSend} disabled={loading}>
-        {loading ? "Signing with Passkey..." : `Send ${payidx.nativeCurrency.symbol}`}
+        {loading ? "Signing with Passkey…" : `Send ${thaichain.nativeCurrency.symbol}`}
       </button>
 
       {error && <p className="error-text">{error}</p>}
 
       {txHash && (
         <div className="success-box">
-          <p>✅ Transaction sent!</p>
+          <p>◆ Transaction sent</p>
           <p>
             <a
-              href={`${payidx.blockExplorers!.default.url}/tx/${txHash}`}
+              href={`${thaichain.blockExplorers!.default.url}/tx/${txHash}`}
               target="_blank"
               rel="noreferrer"
             >

@@ -2,10 +2,10 @@ import { useState, useEffect } from "react";
 import { daccSendToken } from "dacc-js";
 import { createPublicClient, http, encodeFunctionData, decodeAbiParameters } from "viem";
 import { useWallet } from "../contexts/WalletContext";
-import { payidx } from "../config/chain";
+import { thaichain } from "../config/chain";
 
 const client = createPublicClient({
-  chain: payidx,
+  chain: thaichain,
   transport: http(),
 });
 
@@ -106,7 +106,7 @@ export function SendToken({ onSent }: Props) {
       const result = await daccSendToken({
         daccPublickey: unlockedWallet.daccPublickey,
         passwordSecretkey: unlockedWallet.passwordSecretkey,
-        network: payidx,
+        network: thaichain,
         tokenAddress: tokenAddress as `0x${string}`,
         to: to as `0x${string}`,
         amount: parseFloat(amount),
@@ -141,7 +141,7 @@ export function SendToken({ onSent }: Props) {
           <span className="field-hint success">{symbol} · {decimals} decimals</span>
         )}
         {!fetchingInfo && tokenAddress.length === 42 && decimals === null && (
-          <span className="field-hint error">⚠️ Not a valid ERC-20 token</span>
+          <span className="field-hint error">⚠ Not a valid ERC-20 token</span>
         )}
       </div>
 
@@ -176,10 +176,10 @@ export function SendToken({ onSent }: Props) {
 
       {txHash && (
         <div className="success-box">
-          <p>✅ Transaction sent!</p>
+          <p>◆ Transaction sent</p>
           <p>
             <a
-              href={`${payidx.blockExplorers!.default.url}/tx/${txHash}`}
+              href={`${thaichain.blockExplorers!.default.url}/tx/${txHash}`}
               target="_blank"
               rel="noreferrer"
             >

@@ -42,23 +42,23 @@ export function CreateWallet() {
 
   return (
     <div className="card">
-      <div className="card-icon">🔐</div>
+      <div className="card-icon">◈</div>
       <h1>Create Passkey Wallet</h1>
       <p className="subtitle">
-        A new EVM wallet will be generated and encrypted using your device's Passkey
-        (Face ID, Touch ID, or security key). You'll need biometric authentication
-        every time you unlock or sign transactions.
+        A new EVM wallet on ThaiChain will be generated and encrypted using your
+        device&apos;s Passkey (Face ID, Touch ID, or security key). You&apos;ll need
+        biometric authentication every time you unlock or sign transactions.
       </p>
 
       {!platformAuthAvailable && (
         <div className="warning-banner">
-          ⚠️ No platform authenticator detected. A security key or passkey-compatible
+          ⚠ No platform authenticator detected. A security key or passkey-compatible
           browser is required.
         </div>
       )}
 
       <div className="info-box">
-        <h3>How it works:</h3>
+        <h3>How it works</h3>
         <ol>
           <li>A random secret key is generated locally on your device</li>
           <li>
@@ -76,7 +76,7 @@ export function CreateWallet() {
       </div>
 
       <button className="btn-primary" onClick={handleCreate} disabled={loading}>
-        {loading ? "Creating wallet..." : "Create Wallet"}
+        {loading ? "Creating wallet…" : "Create Wallet"}
       </button>
 
       <div className="divider">
@@ -84,7 +84,7 @@ export function CreateWallet() {
       </div>
 
       <button className="btn-secondary" onClick={handleImportClick}>
-        ⬆ Import from Backup File
+        ↧ Import from Backup
       </button>
       <input
         ref={fileInputRef}
